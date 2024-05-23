@@ -1,41 +1,31 @@
-# Next.js Image
+# Next.js 图片
 
-The standard way to use
-[Next.js Image](https://nextjs.org/docs/basic-features/image-optimization)
-inside MDX is to directly import the component:
+在MDX中使用[Next.js 图片](https://nextjs.org/docs/basic-features/image-optimization)的标准方法是直接导入组件：
 
 ```mdx
-import Image from 'next/image'
+import Image from "next/image";
 
 <Image src="/demo.png" alt="Hello" width={500} height={500} />
 ```
 
-## Static Image
+## 静态图片
 
-import { Callout } from 'nextra/components'
+import { Callout } from "nextra/components";
 
-<Callout>
-  This feature is enabled via `staticImage: true` in the Nextra config by
-  default.
-</Callout>
+<Callout>此功能默认通过在Nextra配置中设置`staticImage: true`来启用。</Callout>
 
-Nextra supports automatically optimizing your static image imports with the
-Markdown syntax. You do not need to specify the width and height of the image,
-just use the `![]()` Markdown syntax:
+Nextra支持使用Markdown语法自动优化您的静态图片导入。您不需要指定图片的宽度和高度，只需使用`![]()` Markdown语法：
 
 ```md filename="index.mdx"
 ![Hello](/demo.png)
 ```
 
-This loads the `demo.png` file inside the `public` folder, and automatically
-wraps it with Next.js `<Image>`.
+这将加载`public`文件夹内的`demo.png`文件，并自动将其封装在Next.js的`<Image>`中。
 
 <Callout>
-  You can also use `![](../public/demo.png)` to load the image from a relative
-  path, if you don't want to host it via `public`.
+  如果您不想通过`public`托管图片，也可以使用`![](../public/demo.png)`从相对路径加载图片。
 </Callout>
 
-With Next.js Image, there will be no layout shift, and a beautiful blurry
-placeholder will be shown by default when loading the images:
+使用Next.js 图片，将不会有布局移动，并且在加载图片时，默认会显示一个美观的模糊占位符：
 
 ![Nextra](/og.jpeg)

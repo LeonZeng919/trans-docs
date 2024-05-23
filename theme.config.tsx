@@ -9,7 +9,13 @@ const config: DocsThemeConfig = {
     </span>
   ),
   footer: {
-    text: "Trans Docs",
+    text: (
+      <div className="flex w-full flex-col items-center sm:items-start">
+        <p className="mt-6 text-xs">
+          © {new Date().getFullYear()} Trans Docs.
+        </p>
+      </div>
+    ),
   },
   feedback: { content: null },
   editLink: {
@@ -41,6 +47,9 @@ const config: DocsThemeConfig = {
         titleTemplate: "%s – TransDocs",
       };
     }
+  },
+  toc: {
+    backToTop: true,
   },
 };
 
