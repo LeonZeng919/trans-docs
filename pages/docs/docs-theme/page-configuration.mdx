@@ -1,0 +1,384 @@
+# 页面配置
+
+在 Nextra 中，站点和页面结构可以通过位于同一位置的 `_meta.json` 文件进行配置。在文档主题中，有一些额外的选项可用于进一步自定义。
+
+这些配置影响主题的整体布局，尤其是导航栏和侧边栏。
+
+import { Screenshot } from "components/screenshot";
+import Video from "components/video";
+import { Callout, FileTree } from "nextra/components";
+import menuImage from "../../../public/assets/docs/menu.png";
+
+<Callout>
+  阅读更多关于 Nextra 的 `_meta.json` 文件的信息
+  [这里](/docs/guide/organize-files)。
+</Callout>
+
+## 页面
+
+侧边栏中显示的页面标题和顺序应在 `_meta.json` 文件中以键值对的形式配置。例如，如果你有以下文件结构：
+
+<FileTree>
+  <FileTree.Folder name="pages" defaultOpen>
+    <FileTree.File name="_meta.json" />
+    <FileTree.File name="about.mdx" />
+    <FileTree.File name="contact.mdx" />
+    <FileTree.File name="index.mdx" />
+  </FileTree.Folder>
+</FileTree>
+
+你可以通过 `_meta.json` 文件定义侧边栏中的页面显示方式：
+
+```json filename="_meta.json"
+{
+  "index": "我的主页",
+  "contact": "联系我们",
+  "about": "关于我们"
+}
+```
+
+<Callout>
+  如果有任何路由未在 `_meta.json`
+  文件中列出，它们将被追加到侧边栏的末尾并按字母顺序排序，标题将使用
+  [Title](https://title.sh) 格式化。
+</Callout>
+
+## 文件夹
+
+文件夹可以像页面一样配置。例如：
+
+<FileTree>
+  <FileTree.Folder name="pages" defaultOpen>
+    <FileTree.Folder name="fruits" defaultOpen>
+      <FileTree.File name="_meta.json" />
+      <FileTree.File name="apple.mdx" />
+      <FileTree.File name="banana.mdx" />
+    </FileTree.Folder>
+    <FileTree.File name="_meta.json" />
+    <FileTree.File name="about.mdx" />
+    <FileTree.File name="contact.mdx" />
+    <FileTree.File name="index.mdx" />
+  </FileTree.Folder>
+</FileTree>
+
+顶级 `_meta.json` 文件包含顶级页面和文件夹的元信息：
+
+```json filename="pages/_meta.json"
+{
+  "index": "我的主页",
+  "contact": "联系我们",
+  "fruits": "美味水果",
+  "about": "关于我们"
+}
+```
+
+嵌套的 `_meta.json` 文件包含同一文件夹中页面的元信息：
+
+```json filename="pages/fruits/_meta.json"
+{
+  "apple": "苹果",
+  "banana": "香蕉"
+}
+```
+
+通过这种方式，页面信息在目录中被组织在一起。你可以移动目录而无需更改 `_meta.json` 文件。
+
+### 带索引页面的文件夹
+
+如果我想要一个带有索引页面的文件夹怎么办？我们可以在文件夹同一目录下添加一个与文件夹同名的 MDX 页面。假设我们想在上面的示例中添加 `/fruits` 路由，我们可以在 pages 中创建一个 `fruits.mdx` 文件：
+
+<FileTree>
+  <FileTree.Folder name="pages" defaultOpen>
+    <FileTree.Folder name="fruits" defaultOpen>
+      <FileTree.File name="_meta.json" />
+      <FileTree.File name="apple.mdx" />
+      <FileTree.File name="banana.mdx" />
+    </FileTree.Folder>
+    <FileTree.File name="_meta.json" />
+    <FileTree.File name="about.mdx" />
+    <FileTree.File name="contact.mdx" />
+    <FileTree.File name="fruits.mdx" active />
+    <FileTree.File name="index.mdx" />
+  </FileTree.Folder>
+</FileTree>
+
+然后 Nextra 知道 `_meta.json` 中的 `fruits` 键定义了一个带有索引页面的文件夹。如果你点击侧边栏中的那个文件夹，它将打开文件夹并同时显示 `fruits.mdx` 页面。
+
+## 外部链接
+
+你可以通过在 `_meta.json` 中添加带有 `href` 的项来向侧边栏添加外部链接：
+
+```json filename="pages/_meta.json" {6-9}
+{
+  "index": "我的主页",
+  "contact": "联系我们",
+  "fruits": "美味水果",
+  "about": "关于我们",
+  "github_link": {
+    "title": "Nextra",
+    "href": "https://github.com/shuding/nextra"
+  }
+}
+```
+
+要始终在新标签页中打开链接，启用 `"newWindow": true` 选项：
+
+```json filename="pages/_meta.json" {9}
+{
+  "index": "我的主页",
+  "contact": "联系我们",
+  "fruits": "美味水果",
+  "about": "关于我们",
+  "github_link": {
+    "title": "Nextra",
+    "href": "https://github.com/shuding/nextra",
+    "newWindow": true
+  }
+}
+```
+
+<Callout>你也可以使用这个选项链接到相对的内部链接。</Callout>
+
+## 隐藏路由
+
+默认情况下，文件系统中的所有 MDX 路由都会显示在侧边栏上。但你可以通过使用 `"display": "hidden"` 配置来隐藏特定页面或文件夹：
+
+```json filename="pages/_meta.json" {4}
+{
+  "index": "我的主页",
+  "contact": {
+    "display": "hidden"
+  },
+  "about": "关于我们"
+}
+```
+
+该页面仍然可以通过 `/contact` URL 访问，但不会显示在侧边栏中。
+
+## 导航栏项目
+
+### 子文档
+
+通过将顶级页面或文件夹定义为 `"type": "page"`，它将显示为导航栏上的特殊页面，而不是侧边栏。借助此功能，你可以拥有多个“子文档”和特殊页面或链接，例如“联系我们”，这些始终可见。
+
+例如，你可以在你的项目中有两个文档文件夹 `frameworks` 和 `fruits`：
+
+<FileTree>
+  <FileTree.Folder name="pages" defaultOpen>
+    <FileTree.Folder name="frameworks" defaultOpen>
+      <FileTree.File name="react.mdx" />
+      <FileTree.File name="svelte.mdx" />
+      <FileTree.File name="vue.mdx" />
+    </FileTree.Folder>
+    <FileTree.Folder name="fruits" defaultOpen>
+      <FileTree.File name="apple.mdx" />
+      <FileTree.File name="banana.mdx" />
+    </FileTree.Folder>
+    <FileTree.File name="_meta.json" />
+    <FileTree.File name="about.mdx" />
+    <FileTree.File name="index.mdx" />
+  </FileTree.Folder>
+</FileTree>
+
+在你的顶级 `_meta.json` 文件中，你可以将所有内容设置为页面，而不是普通的侧边栏项：
+
+```json filename="pages/_meta.json"
+{
+  "index": {
+    "title": "首页",
+    "type": "page"
+  },
+  "frameworks": {
+    "title": "框架",
+    "type": "page"
+  },
+  "fruits": {
+    "title": "水果",
+    "type": "page"
+  },
+  "about": {
+    "title": "关于我们",
+    "type": "page"
+  }
+}
+```
+
+它将显示如下：
+
+<Video src="/assets/docs/sub-docs.mp4" />
+
+<div className="mt-4 text-center text-sm">
+  [StackBlitz 上的实时示例
+  ↗](https://stackblitz.com/edit/nextra-2-docs-eszspq?file=pages%2F_meta.json)
+</div>
+
+你也可以使用 [`"display": "hidden"`](#hidden-routes) 选项隐藏像 `首页` 这样的链接。
+
+### 菜单
+
+你还可以使用 `"type": "menu"` 和 `"items"` 选项将菜单添加到导航栏：
+
+<Screenshot src={menuImage} alt="导航栏菜单" />
+
+<div className="mt-8 text-center text-sm">
+  [StackBlitz 上的实时示例
+  ↗](https://stackblitz.com/edit/nextra-2-docs-2qopvp?file=pages%2F_meta.json)
+</div>
+
+```json filename="pages/_meta.json"
+{
+  "company": {
+    "title": "公司",
+    "type": "menu",
+    "items": {
+      "about": {
+        "title": "关于",
+        "href": "/about"
+      },
+      "contact": {
+        "title": "联系我们",
+        "href": "mailto:hi@example.com"
+      }
+    }
+  }
+}
+```
+
+### 链接
+
+与 [外部链接](#外部链接) 选项相同，你也可以在导航栏中有外部链接：
+
+```json filename="pages/_meta.json"
+{
+  "index": {
+    "title": "首页",
+    "type": "page"
+  },
+  "about": {
+    "title": "关于我们",
+    "type": "page"
+  },
+  "contact": {
+    "title": "联系我们",
+    "type": "page",
+    "href": "https://example.com/contact",
+    "newWindow": true
+  }
+}
+```
+
+## 备选方案
+
+在上面的 [子文档](#子文档) 示例中，我们必须为每个页面定义 `"type": "page"` 选项。为了简化操作，你可以使用 `"*"` 键来为这个文件夹中的所有项目定义备选配置：
+
+```json filename="pages/_meta.json" {2-4}
+{
+  "*": {
+    "type": "page"
+  },
+  "index": "首页",
+  "frameworks": "框架",
+  "fruits": "水果",
+  "about": "关于我们"
+}
+```
+
+它们等效于所有项目都设置了 `"type": "page"`。
+
+## 分隔符
+
+你可以使用带有 `"type": "separator"` 的 "占位符" 项在侧边栏中的项目之间创建分隔线：
+
+```json filename="_meta.json"
+{
+  "index": "我的主页",
+  "---": {
+    "type": "separator"
+  },
+  "contact": "联系我们"
+}
+```
+
+<Callout>
+  结合 [`sidebar.titleComponent`](/docs/docs-theme/theme-configuration#sidebar)
+  主题选项，你可以自定义标题和分隔线的外观。
+</Callout>
+
+## 高级
+
+### 主题组件
+
+你可以使用 `"theme"` 选项为每个页面配置主题。例如，你可以禁用或启用特定页面的特定组件：
+
+```json filename="pages/_meta.json"
+{
+  "index": {
+    "title": "首页",
+    "theme": {
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": false,
+      "toc": true,
+      "pagination": false
+    }
+  }
+}
+```
+
+如果设置为一个文件夹，此选项将被所有子页面继承。
+
+### 布局
+
+默认情况下，每个页面都在其主题配置中有 `"layout": "default"`，这是默认行为。
+
+#### 原始布局
+
+默认情况下，Nextra 将使用主题组件在内容容器内渲染 MDX 内容（如 `h1`、`h2`、`h3` 等）。你可以使用 `"raw"` 布局让 Nextra 不对内容注入任何样式：
+
+```json filename="pages/_meta.json" {5}
+{
+  "index": {
+    "title": "首页",
+    "theme": {
+      "layout": "raw"
+    }
+  }
+}
+```
+
+#### 全屏布局
+
+你可能希望某些页面使用整个容器的宽度和高度进行渲染，但保留所有其他样式。你可以使用 `"full"` 布局来实现这一点：
+
+```json filename="pages/_meta.json" {5}
+{
+  "index": {
+    "title": "首页",
+    "theme": {
+      "layout": "full"
+    }
+  }
+}
+```
+
+### 排版
+
+`"typesetting"` 选项控制排版细节，如字体特性、标题样式以及像 `li` 和 `code` 这样的组件。文档主题中有 `"default"` 和 `"article"` 两种排版可用。
+
+默认的排版适用于大多数情况，如文档，但你可以使用 `"article"` 排版使页面看起来像优雅的文章页面：
+
+```json filename="pages/_meta.json" {5}
+{
+  "about": {
+    "title": "关于我们",
+    "theme": {
+      "typesetting": "article"
+    }
+  }
+}
+```
+
+<div className="mt-4 text-center text-sm">
+  [StackBlitz 上的实时示例
+  ↗](https://stackblitz.com/edit/nextra-2-docs-hg77h3?file=pages%2F_meta.json,pages%2Findex.mdx)
+</div>

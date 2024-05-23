@@ -1,0 +1,54 @@
+# Bleed
+
+import { Bleed } from "nextra-theme-docs";
+
+## 示例
+
+当你用`<Bleed>`包裹你的内容时，它会比容器稍宽一些，并且会在两侧溢出。
+
+<Bleed>
+  <div className="bg-white dark:bg-neutral-800 px-16 py-10 text-center border">
+    _写作无非是坐下来敲打打字机，然后**流血**。_
+
+    ——欧内斯特·海明威
+
+  </div>
+</Bleed>
+
+当你想展示一些图形信息时，它提供了更好的阅读体验，这些信息在较大尺寸时通常看起来更好。
+
+例如，你可以放置文本、图片、视频或任何组件：
+
+<Bleed>
+  <iframe
+    className="aspect-video w-full"
+    src="https://www.youtube.com/embed/3hccXiXI0u8"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  />
+</Bleed>
+
+你甚至可以使用`<Bleed full>`使其全屏：
+
+<Bleed full>
+  <>![风景](https://source.unsplash.com/eaxwP9J_V6s/1600x398)</>
+</Bleed>
+
+## 使用方法
+
+```mdx
+import { Bleed } from "nextra-theme-docs";
+
+<Bleed>嘿，我可以在这里使用**Markdown**语法。</Bleed>
+
+<Bleed full>![风景](https://source.unsplash.com/eaxwP9J_V6s/1600x398)</Bleed>
+
+<Bleed full>
+  <iframe
+    src="https://codesandbox.io/embed/swr-states-4une7"
+    width="100%"
+    height="500px"
+    title="SWR-States"
+  />
+</Bleed>
+```

@@ -1,0 +1,32 @@
+import {
+  CardsIcon,
+  FolderTreeIcon,
+  IdCardIcon,
+  OneIcon,
+  WarningIcon,
+} from "@components/icons";
+import { Card, Cards } from "nextra/components";
+
+# 内置组件
+
+Nextra 包含了一些内置组件，您可以使用它们来更好地样式化您的内容：
+
+<Cards>
+  <Card
+    icon={<WarningIcon />}
+    title="Callout"
+    href="/docs/guide/built-ins/callout"
+  />
+  <Card icon={<CardsIcon />} title="Tabs" href="/docs/guide/built-ins/tabs" />
+  <Card
+    icon={<IdCardIcon />}
+    title="Cards"
+    href="/docs/guide/built-ins/cards"
+  />
+  <Card icon={<OneIcon />} title="Steps" href="/docs/guide/built-ins/steps" />
+  <Card
+    icon={<FolderTreeIcon className="h-5 w-5" />}
+    title="FileTree"
+    href="/docs/guide/built-ins/filetree"
+  />
+</Cards>

@@ -1,15 +1,22 @@
 {
-  "index": "Introduction",
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
+  "index": {
+    "type": "page",
+    "title": "trans docs",
+    "display": "hidden"
+  },
   "about": {
-    "title": "About",
+    "title": "关于本站",
     "type": "page"
   },
   "contact": {
-    "title": "Contact ↗",
+    "title": "联系我 ↗",
     "type": "page",
-    "href": "https://twitter.com/shuding_",
+    "href": "https://twitter.com/leonzeng2024",
     "newWindow": true
+  },
+  "docs": {
+    "type": "page",
+    "title": "nextra 中文",
+    "display": "hidden"
   }
 }

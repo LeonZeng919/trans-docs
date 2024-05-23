@@ -1,0 +1,24 @@
+# Tailwind CSS
+
+Tailwind CSS 是一个 CSS 框架，提供了一套预定义的 CSS 类，以便快速样式化元素. 您可以按照官方的
+[Tailwind CSS 文档 for Next.js](https://tailwindcss.com/docs/guides/nextjs)
+来为您的 Nextra 项目设置 Tailwind CSS.
+
+要在您的 Markdown 文件中使用 Tailwind 类，您还需要将 `.md` 和 `.mdx` 文件添加到 `tailwind.config.js` 中的 `content` 列表里:
+
+```js filename="tailwind.config.js" /md,mdx/
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./pages/**/*.{js,jsx,ts,tsx,md,mdx}",
+    "./components/**/*.{js,jsx,ts,tsx,md,mdx}",
+
+    // 或者如果使用 `src` 目录:
+    "./src/**/*.{js,jsx,ts,tsx,md,mdx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+```

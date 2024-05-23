@@ -1,0 +1,97 @@
+# Callout 组件
+
+用于向读者展示重要信息的内置组件。
+
+import { Callout } from "nextra/components";
+
+## 示例
+
+<Callout>**Callout** 是一段旨在吸引注意的短文本。</Callout>
+
+<Callout type="info">**Callout** 是一段旨在吸引注意的短文本。</Callout>
+
+<Callout type="warning">**Callout** 是一段旨在吸引注意的短文本。</Callout>
+
+<Callout type="error">**Callout** 是一段旨在吸引注意的短文本。</Callout>
+
+## 使用方法
+
+### 默认
+
+<Callout emoji="👾">
+  **Space Invaders** 是由Tomohiro Nishikado 在1978年开发的射击类街机游戏。
+</Callout>
+
+```mdx
+import { Callout } from "nextra/components";
+
+<Callout emoji="👾">
+  **Space Invaders** 是由Tomohiro Nishikado 在1978年开发的射击类街机游戏。
+</Callout>
+```
+
+### 信息
+
+<Callout type="info" emoji="ℹ️">
+  今天是星期五。
+</Callout>
+
+```mdx
+import { Callout } from "nextra/components";
+
+<Callout type="info" emoji="ℹ️">
+  今天是星期五。
+</Callout>
+```
+
+### 警告
+
+<Callout type="warning" emoji="⚠️">
+  这个API很快就会被弃用。
+</Callout>
+
+```mdx
+import { Callout } from "nextra/components";
+
+<Callout type="warning" emoji="⚠️">
+  这个API很快就会被弃用。
+</Callout>
+```
+
+### 错误
+
+<Callout type="error" emoji="🚫">
+  这是一个危险的功能，可能导致一切都爆炸。
+</Callout>
+
+```mdx
+import { Callout } from "nextra/components";
+
+<Callout type="error" emoji="️🚫">
+  这是一个危险的功能，可能导致一切都爆炸。
+</Callout>
+```
+
+## API
+
+`Callout` 组件接受以下属性：
+
+### `type`（可选）
+
+Callout 的类型。
+
+- 类型：`'default' | 'info' | 'warning' | 'error'`
+- 默认值：`'default'`
+
+### `emoji`（可选）
+
+在 Callout 中显示的图标。您也可以使用此属性显示自定义图标。
+
+- 类型：`string | ReactNode`
+- 默认值：`'💡'`
+
+### `children`
+
+Callout 的内容。
+
+- 类型：`ReactNode`

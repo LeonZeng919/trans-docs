@@ -1,0 +1,78 @@
+import { Callout, Steps } from "nextra/components";
+
+# Next.js I18n
+
+<Callout emoji="⚠️">此功能仅在文档主题中可用.</Callout>
+
+Nextra 开箱即支持
+[Next.js 国际化路由](https://nextjs.org/docs/advanced-features/i18n-routing)。
+这些文档解释了如何配置和使用它。
+
+<Steps>
+### 添加 I18n 配置
+
+要向你的 Nextra 应用程序添加多语言页面，你需要首先在 `next.config.js` 中配置
+`i18n`：
+
+```js filename="next.config.js" {7-10}
+const withNextra = require("nextra")({
+  theme: "nextra-theme-docs",
+  themeConfig: "./theme.config.tsx",
+});
+
+module.exports = withNextra({
+  i18n: {
+    locales: ["en-US", "zh-CN", "de-DE"],
+    defaultLocale: "en-US",
+  },
+});
+```
+
+### 添加中间件
+
+然后，你需要在项目根目录中添加一个 `middleware.js` 文件
+([相关 Next.js 文档](https://nextjs.org/docs/advanced-features/middleware))：
+
+```js
+export { locales as middleware } from "nextra/locales";
+```
+
+如果你已经定义了中间件，可以这样做：
+
+```js
+import { withLocales } from "nextra/locales";
+
+export const middleware = withLocales((request) => {
+  // 你的中间件代码...
+});
+```
+
+### 将语言代码添加到文件名
+
+然后，将语言代码添加到你的文件扩展名中（默认语言也需要）：
+
+```plaintext
+/pages
+  _meta.en-US.json
+  _meta.zh-CN.json
+  _meta.de-DE.json
+  index.en-US.md
+  index.zh-CN.md
+  index.de-DE.md
+  ...
+```
+
+### 配置文档主题
+
+最后，在 `theme.config.jsx` 中添加 `i18n` 选项以配置语言下拉菜单：
+
+```js filename="theme.config.jsx"
+i18n: [
+  { locale: "en-US", text: "English" },
+  { locale: "zh-CN", text: "中文" },
+  { locale: "de-DE", text: "Deutsch" },
+  { locale: "ar-SA", text: "العربية", direction: "rtl" },
+];
+```
+
+</Steps>

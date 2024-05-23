@@ -1,0 +1,200 @@
+import { Callout, Steps } from "nextra/components";
+
+# 渲染表格
+
+## GFM 语法
+
+在 Markdown 中，推荐通过 [GFM 语法](https://github.github.com/gfm/#tables-extension-) 编写表格。
+
+```mdx filename="Markdown"
+| left   | center | right |
+| :----- | :----: | ----: |
+| foo    |  bar   |   baz |
+| banana | apple  |  kiwi |
+```
+
+将被渲染为：
+
+| left   | center | right |
+| :----- | :----: | ----: |
+| foo    |  bar   |   baz |
+| banana | apple  |  kiwi |
+
+## HTML 字面表格
+
+如果您尝试渲染以下字面 `<table />{:jsx}` 元素：
+
+```mdx filename="Markdown"
+<table>
+  <thead>
+    <tr>
+      <th>left</th>
+      <th align="center">center</th>
+      <th align="right">right</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>foo</td>
+      <td align="center">bar</td>
+      <td align="right">baz</td>
+    </tr>
+    <tr>
+      <td>banana</td>
+      <td align="center">apple</td>
+      <td align="right">kiwi</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+您将得到以下结果：
+
+<table>
+  <thead>
+    <tr>
+      <th>left</th>
+      <th align="center">center</th>
+      <th align="right">right</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>foo</td>
+      <td align="center">bar</td>
+      <td align="right">baz</td>
+    </tr>
+    <tr>
+      <td>banana</td>
+      <td align="center">apple</td>
+      <td align="right">kiwi</td>
+    </tr>
+  </tbody>
+</table>
+
+<Callout type="warning">
+  对未样式化的元素感到困惑吗？我们在[这里](#为什么会这样)解释了为什么会这样。
+</Callout>
+
+## 动态表格
+
+### 如何编写
+
+想要渲染动态表格吗？您可以在表格中嵌入 JavaScript 表达式来实现：
+
+```mdx filename="Markdown"
+<table>
+  <thead>
+    <tr>
+      <th>国家</th>
+      <th>旗帜</th>
+    </tr>
+  </thead>
+  <tbody>
+    {[
+      { country: "France", flag: "🇫🇷" },
+      { country: "Ukraine", flag: "🇺🇦" },
+    ].map((item) => (
+      <tr key={item.country}>
+        <td>{item.country}</td>
+        <td>{item.flag}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+```
+
+将被渲染为：
+
+<table>
+  <thead>
+    <tr>
+      <th>国家</th>
+      <th>旗帜</th>
+    </tr>
+  </thead>
+  <tbody>
+    {[
+      { country: "France", flag: "🇫🇷" },
+      { country: "Ukraine", flag: "🇺🇦" },
+    ].map((item) => (
+      <tr key={item.country}>
+        <td>{item.country}</td>
+        <td>{item.flag}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+<Callout type="warning">
+  对未样式化的元素感到困惑吗？我们在下面👇解释了为什么会这样。
+</Callout>
+
+### 非预期结果
+
+与 [GFM 语法表](#gfm-语法) 相比，表格看起来不同：
+
+1. 只有表体 `<tbody />{:jsx}` 的子元素被样式化
+
+2. 表头未被样式化
+
+3. 表格没有顶部边距
+
+### 为什么会这样
+
+MDX2 不会用 `<MDXProvider />{:jsx}` 替换字面 HTML 元素。
+
+Tailwind CSS 的创造者 Adam Wathan 在 MDX2 提交了[一个问题](https://github.com/mdx-js/mdx/issues/821)，希望有一个我们可以命名的“逃生舱口”：
+
+> 请只转换 Markdown 标签，不要转换字面 HTML 标签
+
+表头看起来未被样式化，因为没有被 Nextra 的 MDX 组件 `<tr />{:jsx}`、`<th />{:jsx}` 和 `<td />{:jsx}` 替换，同样的原因 `<table />{:jsx}` 字面元素未被替换，并且没有默认的顶部边距，即 `mt-6`。
+
+### 解决方法
+
+#### 一次性修复
+
+只需用大括号 `{` 和 `}` 包裹您的表格，例如：
+
+```text filename="Markdown"
+{<table>
+  ...
+</table>}
+```
+
+#### 更改默认行为
+
+如果这个问题仍然让您感到困惑，并且您想要使用常规的字面 HTML 元素来编写您的表格，请按照以下步骤操作：
+
+<Steps>
+### 安装 `remark-mdx-disable-explicit-jsx` 包
+
+```sh npm2yarn
+npm i remark-mdx-disable-explicit-jsx
+```
+
+### 设置
+
+在 `next.config.mjs` 文件中配置插件
+
+```js filename="next.config.mjs" {2,8-13}
+import nextra from "nextra";
+import remarkMdxDisableExplicitJsx from "remark-mdx-disable-explicit-jsx";
+
+const withNextra = nextra({
+  theme: "nextra-theme-docs",
+  themeConfig: "./theme.config.tsx",
+  mdxOptions: {
+    remarkPlugins: [
+      [
+        remarkMdxDisableExplicitJsx,
+        { whiteList: ["table", "thead", "tbody", "tr", "th", "td"] },
+      ],
+    ],
+  },
+});
+
+export default withNextra();
+```
+
+</Steps>

@@ -1,0 +1,23 @@
+{
+  "index": "介绍",
+  "guide": "指南",
+  "-- Themes": {
+    "type": "separator",
+    "title": "主题"
+  },
+  "docs-theme": "文档主题",
+  "blog-theme": "博客主题",
+  "custom-theme": "",
+  "-- More": {
+    "type": "separator",
+    "title": "更多"
+  },
+  "about": {
+    "title": "关于 Nextra"
+  },
+  "next.js-link": {
+    "title": "Next.js 文档 ↗",
+    "href": "https://nextjs.org?utm_source=nextra.site&utm_medium=referral&utm_campaign=sidebar",
+    "newWindow": true
+  }
+}

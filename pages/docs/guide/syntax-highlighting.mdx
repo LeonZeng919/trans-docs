@@ -1,0 +1,336 @@
+import { OptionTable } from "components/table";
+import { Callout } from "nextra/components";
+
+# 语法高亮
+
+Nextra 使用 [Shiki](https://shiki.matsu.io) 在构建时进行语法高亮。它非常可靠且性能优越。例如，在您的 Markdown 文件中添加以下内容：
+
+````md filename="Markdown"
+```js
+console.log("hello, world");
+```
+````
+
+结果是：
+
+```js
+console.log("hello, world");
+```
+
+## 特性
+
+### 内联代码
+
+内联语法高亮（例如 `let x = 1{:jsx}`）也通过 `{:}` 语法支持：
+
+```md filename="Markdown"
+内联语法高亮也支持 `let x = 1{:jsx}` 语法：
+```
+
+### 高亮行
+
+您可以通过向代码块添加 `{}` 属性来高亮特定的代码行：
+
+````md filename="Markdown"
+```js {1,4-5}
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+```
+````
+
+结果：
+
+```js {1,4-5}
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+```
+
+### 高亮子字符串
+
+您可以通过向代码块添加 `//` 属性来高亮特定的代码子字符串：
+
+````md filename="Markdown"
+```js /useState/
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+```
+````
+
+```js /useState/
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+```
+
+您可以通过添加一个数字来仅高亮该子字符串的一部分：`/str/1`，或多个：`/str/1-3`，`/str/1,3`。
+
+### 复制按钮
+
+通过添加 `copy` 属性，当用户悬停在代码块上时，会添加一个复制按钮：
+
+````md filename="Markdown"
+```js copy
+console.log("hello, world");
+```
+````
+
+渲染：
+
+```js copy
+console.log("hello, world");
+```
+
+您可以通过在 Nextra 配置（`next.config.js` 文件）中设置 `defaultShowCopyCode: true` 来全局启用此功能。一旦全局启用，您可以通过 `copy=false` 属性禁用它。
+
+### 行号
+
+您可以通过添加 `showLineNumbers` 属性来为代码块添加行号：
+
+````md filename="Markdown"
+```js showLineNumbers
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+```
+````
+
+渲染：
+
+```js showLineNumbers
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+```
+
+### 文件名和标题
+
+您可以通过添加 `filename` 属性为代码块添加文件名或标题：
+
+````md filename="Markdown"
+```js filename="example.js"
+console.log("hello, world");
+```
+````
+
+渲染：
+
+```js filename="example.js"
+console.log("hello, world");
+```
+
+### ANSI 高亮
+
+您可以高亮 ANSI 转义码：
+
+````md filename="Markdown"
+```ansi
+[0m [0;32m✓[0m [0;2msrc/[0mindex[0;2m.test.ts (1)[0m
+  [0;2m Test Files [0m [0;1;32m1 passed[0;98m (1)[0m
+  [0;2m      Tests [0m [0;1;32m1 passed[0;98m (1)[0m
+  [0;2m   Start at [0m 23:32:41
+  [0;2m   Duration [0m 11ms
+  [42;1;39;0m PASS [0;32m Waiting for file changes...[0m
+         [0;2mpress [0;1mh[0;2m to show help, press [0;1mq[0;2m to quit
+```
+````
+
+渲染：
+
+```ansi
+[0m [0;32m✓[0m [0;2msrc/[0mindex[0;2m.test.ts (1)[0m
+  [0;2m Test Files [0m [0;1;32m1 passed[0;98m (1)[0m
+  [0;2m      Tests [0m [0;1;32m1 passed[0;98m (1)[0m
+  [0;2m   Start at [0m 23:32:41
+  [0;2m   Duration [0m 11ms
+  [42;1;39;0m PASS [0;32m Waiting for file changes...[0m
+         [0;2mpress [0;1mh[0;2m to show help, press [0;1mq[0;2m to quit
+```
+
+## 支持的语言
+
+查看[此列表](https://github.com/shikijs/shiki/blob/main/docs/languages.md)了解所有支持的语言。
+
+## 自定义主题
+
+Nextra 使用 CSS 变量来定义令牌的颜色。您可以注入一个[全局 CSS](https://nextjs.org/docs/basic-features/built-in-css-support#adding-a-global-stylesheet) 来在浅色/深色主题下自定义它们。例如，这是默认的令牌，您可以覆盖其中的任何一个：
+
+```css filename="styles.css"
+:root {
+  --shiki-color-text: #414141;
+  --shiki-color-background: transparent;
+  --shiki-token-constant: #1976d2;
+  --shiki-token-string: #22863a;
+  --shiki-token-comment: #aaa;
+  --shiki-token-keyword: #d32f2f;
+  --shiki-token-parameter: #ff9800;
+  --shiki-token-function: #6f42c1;
+  --shiki-token-string-expression: #22863a;
+  --shiki-token-punctuation: #212121;
+  --shiki-token-link: #22863a;
+}
+
+.dark {
+  --shiki-color-text: #d1d1d1;
+  --shiki-token-constant: #79b8ff;
+  --shiki-token-string: #ffab70;
+  --shiki-token-comment: #6b737c;
+  --shiki-token-keyword: #f97583;
+  --shiki-token-parameter: #ff9800;
+  --shiki-token-function: #b392f0;
+  --shiki-token-string-expression: #4bb74a;
+  --shiki-token-punctuation: #bbb;
+  --shiki-token-link: #ffab70;
+}
+```
+
+## 使用动态内容
+
+由于语法高亮是在构建时完成的，因此您无法在代码块中使用动态内容。然而，由于 MDX 非常强大，可以通过客户端 JS 进行变通。例如：
+
+import { useEffect, useRef } from "react";
+
+export function DynamicCode({ children }) {
+  const ref = useRef();
+  const tokenRef = useRef();
+  // 从 DOM 中找到对应的令牌
+  useEffect(() => {
+    if (ref.current) {
+      const token = [...ref.current.querySelectorAll("code span")].find(
+        (el) => el.innerText === "1"
+      );
+      tokenRef.current = token;
+    }
+  }, []);
+  return (
+    <>
+      <div ref={ref} style={{ marginTop: "1.5rem" }}>
+        {children}
+      </div>
+      <a
+        onClick={() => {
+          tokenRef.current.innerText =
+            (parseInt(tokenRef.current.innerText) || 0) + 1;
+        }}
+        style={{
+          cursor: "pointer",
+          userSelect: "none",
+        }}
+      >
+        增加数字
+      </a>
+      <a
+        onClick={() => {
+          tokenRef.current.innerText = "1 + 1";
+        }}
+        style={{
+          marginLeft: ".5rem",
+          cursor: "pointer",
+          userSelect: "none",
+        }}
+      >
+        更改为 `1 + 1`
+      </a>
+    </>
+  );
+}
+
+<DynamicCode>
+```js filename="dynamic_code.js"
+function hello () {
+  const x = 2 + 3
+  console.log(1)
+}
+```
+</DynamicCode>
+
+这种变通有一个限制，即更新的内容不会重新高亮。例如，如果我们将数字更新为 `1 + 1`，它将被错误地高亮。
+
+查看[代码](https://github.com/shuding/nextra/blob/main/docs/pages/docs/guide/syntax-highlighting.mdx)以了解其工作原理。
+
+## 禁用语法高亮
+
+您可以选择不使用语法高亮，以便使用您自己的高亮方式。您可以通过在 Nextra 配置（`next.config.js` 文件）中设置 `codeHighlight: false` 来全局禁用语法高亮。
+
+<OptionTable
+  options={[["codeHighlight", "boolean", "启用或禁用语法高亮。默认为 `true`."]]}
+/>
+
+## 自定义语法
+
+Shiki 接受一个 [VSCode TextMate 语法](https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide) 以使用自定义语言语法进行语法高亮。
+
+您可以通过在 Nextra 配置中的 `mdxOptions.rehypePrettyCodeOptions` 选项中覆盖 `getHighlighter` 函数来提供这些语法，在 `next.config.js` 文件中：
+
+```js filename="next.config.js" {13-18}
+import { BUNDLED_LANGUAGES } from "shiki";
+
+nextra({
+  // ... 其他选项
+  mdxOptions: {
+    rehypePrettyCodeOptions: {
+      getHighlighter: (options) =>
+        getHighlighter({
+          ...options,
+          langs: [
+            ...BUNDLED_LANGUAGES,
+            // 自定义语法选项，参见 Shiki 文档了解如何提供这些选项
+            {
+              id: "my-lang",
+              scopeName: "source.my-lang",
+              aliases: ["mylang"], // 除了 id，别名也会包含在您编写 markdown 时可以使用的允许名称中。
+              path: "../../public/syntax/grammar.tmLanguage.json",
+            },
+          ],
+        }),
+    },
+  },
+});
+```
+
+## 自定义主题
+
+在 `mdxOptions.rehypePrettyCodeOptions` 中，您还可以提供自定义主题，而不是[依赖 CSS 变量](/docs/guide/syntax-highlighting)：
+
+```js filename="next.config.js" {4}
+nextra({
+  // ... 其他选项
+  mdxOptions: {
+    rehypePrettyCodeOptions: {
+      // VSCode 主题或内置 Shiki 主题，参见 Shiki 文档了解更多信息
+      theme: JSON.parse(
+        readFileSync("./public/syntax/arctis_light.json", "utf8")
+      ),
+    },
+  },
+});
+```
+
+### 多个主题
+
+Nextra 当前不支持指定多个主题。因为 Shiki 为每个主题渲染多个代码块，并用一个 `data-theme` 属性标记它们，例如 `data-theme="dark"`。
+
+<Callout type="info">
+  然而，将来会支持多个主题。您可以在 shikiji（Shiki 的新分支）中跟踪进度
+  https://github.com/antfu/shikiji#multiple-themes，该分支已经支持多个主题而无需渲染多个代码块.
+</Callout>

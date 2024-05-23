@@ -1,0 +1,131 @@
+import { Screenshot } from "components/screenshot";
+import { Callout, Steps } from "nextra/components";
+
+# 自定义主题
+
+在Nextra中，主题类似于布局，将作为所有页面的包装器进行渲染。本文档将指导您创建自定义主题的过程。
+
+您还可以选择部署一个示例，并按照以下步骤进一步构建：
+
+[![](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra-example&showOptionalTeamCreation=false)
+
+## 创建自定义主题
+
+<Steps>
+### 配置Nextra使用主题
+
+首先，您需要告诉Nextra使用您的自定义主题文件，而不是官方的。在您的Next.js配置中，您可以将主题文件的路径传递给Nextra插件：
+
+```js {2} filename="next.config.js"
+const withNextra = require('nextra')({
+  theme: './theme.tsx',
+})
+
+module.exports = withNextra({
+  // 其他Next.js配置
+  ...
+})
+```
+
+### 创建基础主题
+
+现在您可以开始处理您的主题了！在您的根目录中，创建相应的`theme.tsx`文件，并添加基本内容：
+
+```tsx filename="theme.tsx" /children/
+import type { NextraThemeLayoutProps } from "nextra";
+
+export default function Layout({ children }: NextraThemeLayoutProps) {
+  return (
+    <div>
+      <h1>我的主题</h1>
+      <div style={{ border: "1px solid" }}>{children}</div>
+    </div>
+  );
+}
+```
+
+它接受一个`children`属性，这是当前页面的MDX内容，并在内容周围包裹一些其他元素。创建主题后，您可以简单地添加一个MDX文件作为`pages/index.mdx`并查看结果：
+
+import customThemeImage from "../../public/assets/docs/custom-theme.png";
+
+<Screenshot src={customThemeImage} alt="Custom theme" />
+
+<br />
+
+在您的主题布局中，您可以使用CSS导入或其他方式来样式化它。Next.js的钩子如`useRouter`、`Head`也可用。
+
+### 为活动页面渲染元数据
+
+除了`children`，其他一些有用的属性也传递给了主题布局。通过`pageOpts`属性，主题可以访问页面的元信息。
+
+例如，让我们实现这些功能：
+
+- 在`<title>`中渲染页面标题
+- 显示一个简单的目录表
+- 通过前言添加一个`og:image`的meta标签
+
+```tsx filename="theme.tsx" /pageOpts/
+import Head from "next/head";
+import type { NextraThemeLayoutProps } from "nextra";
+
+export default function Layout({ children, pageOpts }: NextraThemeLayoutProps) {
+  const { title, frontMatter, headings } = pageOpts;
+
+  return (
+    <div>
+      <Head>
+        <title>{title}</title>
+        <meta name="og:image" content={frontMatter.image} />
+      </Head>
+      <h1>我的主题</h1>
+      目录表：
+      <ul>
+        {headings.map((heading) => (
+          <li key={heading.value}>{heading.value}</li>
+        ))}
+      </ul>
+      <div style={{ border: "1px solid" }}>{children}</div>
+    </div>
+  );
+}
+```
+
+### 使用整个站点的页面映射
+
+现在，如果您想渲染类似侧边栏或导航栏的东西，这些依赖于不仅是当前页面而且是其他页面的信息，您可以使用`pageMap`值。
+
+例如，我们可以渲染一个包含顶级页面的简单导航列表：
+
+```tsx filename="theme.tsx" /pageMap/
+import Link from "next/link";
+import type { NextraThemeLayoutProps } from "nextra";
+
+export default function Layout({ children, pageOpts }: NextraThemeLayoutProps) {
+  const { pageMap } = pageOpts;
+
+  return (
+    <div>
+      <h1>我的主题</h1>
+      {pageMap.map((item) => {
+        if (item.kind === "MdxPage") {
+          return (
+            <Link key={item.name} href={item.route}>
+              {item.route}
+            </Link>
+          );
+        }
+        return null;
+      })}
+      <div style={{ border: "1px solid" }}>{children}</div>
+    </div>
+  );
+}
+```
+
+其他项目类型如`Folder`（对于目录）和`Meta`（对于`_meta.json`文件）。所有项目都是类型化的，因此您可以轻松知道属性。
+
+</Steps>
+
+## 高级用法
+
+<Callout type="warning">高级用法的文档正在建设中。</Callout>

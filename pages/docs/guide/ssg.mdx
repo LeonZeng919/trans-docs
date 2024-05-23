@@ -1,0 +1,71 @@
+# Next.js SSG
+
+通过 Next.js，你可以使用
+[静态生成 (SSG)](https://nextjs.org/docs/basic-features/pages#static-generation-recommended) 预渲染你的页面。
+你的页面将在构建时生成，并静态地提供给访问者。
+它还可以通过 CDN 缓存，以最大化性能。
+
+Nextra 也支持这一点。以下是一个示例：
+
+import { useData } from "nextra/data";
+
+export const getStaticProps = ({ params }) => {
+  return fetch(`https://api.github.com/repos/shuding/nextra`)
+    .then((res) => res.json())
+    .then((repo) => ({
+      props: {
+        // 我们在页面属性中添加一个 `ssg` 字段，
+        // 该字段将提供给 Nextra 的 `useData` 钩子。
+        ssg: {
+          stars: repo.stargazers_count,
+        },
+      },
+      // 页面将被视为陈旧的，并每 60 秒重新生成一次。
+      revalidate: 60,
+    }));
+};
+
+export const Stars = () => {
+  // 从 SSG 获取数据，并将其作为组件渲染。
+  const { stars } = useData();
+  return <strong>{stars}</strong>;
+};
+
+<div className="mt-6 rounded-xl border border-gray-200 p-4 dark:border-gray-900">
+  Nextra 在 GitHub 上有 <Stars /> 颗星!
+</div>
+
+上面的数字是在构建时通过 `getStaticProps` 生成的。启用
+[增量静态再生](https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration) 后，它将保持最新。
+
+---
+
+以下是上述示例的 MDX 代码：
+
+```mdx
+import { useData } from "nextra/data";
+
+export const getStaticProps = ({ params }) => {
+  return fetch(`https://api.github.com/repos/shuding/nextra`)
+    .then((res) => res.json())
+    .then((repo) => ({
+      props: {
+        // 我们在页面属性中添加一个 `ssg` 字段，
+        // 该字段将提供给 Nextra 的 `useData` 钩子。
+        ssg: {
+          stars: repo.stargazers_count,
+        },
+      },
+      // 页面将被视为陈旧的，并每 60 秒重新生成一次。
+      revalidate: 60,
+    }));
+};
+
+export const Stars = () => {
+  // 从 SSG 获取数据，并将其作为组件渲染。
+  const { stars } = useData();
+  return <strong>{stars}</strong>;
+};
+
+Nextra 在 GitHub 上有 <Stars /> 颗星!
+```

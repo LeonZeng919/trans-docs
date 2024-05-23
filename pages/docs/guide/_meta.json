@@ -1,0 +1,12 @@
+{
+  "organize-files": "组织文件",
+  "markdown": "markdown",
+  "syntax-highlighting": "语法高亮",
+  "link": "Next.js 链接",
+  "image": "Next.js 图片",
+  "ssg": "Next.js 静态生成",
+  "i18n": "Next.js 国际化",
+  "custom-css": "自定义 CSS",
+  "advanced": "高级",
+  "built-ins": "内置功能"
+}

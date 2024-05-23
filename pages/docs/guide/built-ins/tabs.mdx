@@ -1,0 +1,48 @@
+# Tabs 组件
+
+## 示例
+
+import { Tabs } from "nextra/components";
+
+{/* prettier-ignore */}
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+  <Tabs.Tab>**pnpm**: 快速、节省磁盘空间的包管理器。</Tabs.Tab>
+  <Tabs.Tab>**npm** 是 JavaScript 编程语言的包管理器。</Tabs.Tab>
+  <Tabs.Tab>**Yarn** 是一个软件打包系统。</Tabs.Tab>
+</Tabs>
+
+## 使用方法
+
+### 默认
+
+{/* prettier-ignore */}
+```mdx
+import { Tabs } from 'nextra/components'
+
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+  <Tabs.Tab>**pnpm**: 快速、节省磁盘空间的包管理器。</Tabs.Tab>
+  <Tabs.Tab>**npm** 是 JavaScript 编程语言的包管理器。</Tabs.Tab>
+  <Tabs.Tab>**Yarn** 是一个软件打包系统。</Tabs.Tab>
+</Tabs>
+```
+
+### 默认选中索引
+
+您可以使用 `defaultIndex` 属性设置默认的标签索引：
+
+```mdx /defaultIndex="1"/
+import { Tabs } from "nextra/components";
+
+<Tabs items={["pnpm", "npm", "yarn"]} defaultIndex="1">
+  ...
+</Tabs>
+```
+
+然后您将看到 `npm` 作为默认标签：
+
+{/* prettier-ignore */}
+<Tabs items={['pnpm', 'npm', 'yarn']} defaultIndex="1">
+  <Tabs.Tab>**pnpm**: 快速、节省磁盘空间的包管理器。</Tabs.Tab>
+  <Tabs.Tab>**npm** 是 JavaScript 编程语言的包管理器。</Tabs.Tab>
+  <Tabs.Tab>**Yarn** 是一个软件打包系统。</Tabs.Tab>
+</Tabs>

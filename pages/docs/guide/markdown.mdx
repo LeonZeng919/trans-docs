@@ -1,0 +1,122 @@
+# Markdown
+
+## MDX
+
+使用 Nextra 时，所有在 pages 目录下的 `.mdx` 文件都会被渲染为 [MDX](https://mdxjs.com/about)，这是一种支持 React 组件的高级 Markdown 格式。
+
+例如，您可以在 Markdown 文件中导入并使用 React 组件，如下所示：
+
+```mdx filename="Markdown"
+## Hello MDX
+
+import { useState } from "react";
+
+export function Counter({ children }) {
+  const [count, setCount] = useState(0);
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      {children}
+      {count}
+    </button>
+  );
+}
+
+<Counter>**Clicks**: </Counter>
+```
+
+生成结果：
+
+import { Shadow } from "@components/utils/shadow";
+import { useState } from "react";
+
+export function Counter({ children }) {
+  const [count, setCount] = useState(0);
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      {children}
+      {count}
+    </button>
+  );
+}
+
+<div className="mt-6 rounded-xl border border-gray-200 p-4 dark:border-gray-900">
+  <Shadow mode="open">
+    <h2>Hello MDX</h2>
+    <Counter>**Clicks**: </Counter>
+  </Shadow>
+</div>
+
+除了基本的 MDX，Nextra 还内置了一些高级的 Markdown 功能。
+
+## GitHub 风格的 Markdown
+
+[GFM](https://github.github.com/gfm) 是 GitHub 创建的一种 Markdown 扩展，增加了对删除线、任务列表、表格等的支持。
+
+### 删除线
+
+~~removed~~
+
+```md filename="Markdown"
+~~removed~~
+```
+
+### 任务列表
+
+- [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media
+
+```md filename="Markdown"
+- [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media
+```
+
+### 表格
+
+| Syntax        | Description |   Test Text |
+| :------------ | :---------: | ----------: |
+| Header        |    Title    | Here's this |
+| Paragraph     |    Text     |    And more |
+| Strikethrough |             |    ~~Text~~ |
+
+```md filename="Markdown"
+| Syntax        | Description |   Test Text |
+| :------------ | :---------: | ----------: |
+| Header        |    Title    | Here's this |
+| Paragraph     |    Text     |    And more |
+| Strikethrough |             |    ~~Text~~ |
+```
+
+### 自动链接
+
+访问 https://nextjs.org.
+
+```md
+访问 https://nextjs.org.
+```
+
+### 自定义标题 ID
+
+您可以使用格式 `## My heading [#custom-id]` 指定自定义标题 ID。例如：
+
+```md filename="Markdown"
+## Long heading about Nextra [#about-nextra]
+```
+
+在这个例子中，`#about-nextra` 将被用作标题链接，替换默认的 `#long-heading-about-nextra`.
+
+## 扩展语法高亮
+
+import { StarsIcon } from "@components/icons";
+import { Card, Cards } from "nextra/components";
+
+查看语法高亮部分以获取更多信息：
+
+<Cards>
+  <Card
+    icon={<StarsIcon />}
+    title="Syntax Highlighting"
+    href="/docs/guide/syntax-highlighting"
+  />
+</Cards>

@@ -1,11 +1,34 @@
-# Introduction
- 
-Welcome to Nextra! This is a basic docs template. You can use it as a starting point for your own project :)
+---
+title: Trans Docs
+---
 
-## What is Nextra?
+import { Cards } from "nextra/components";
 
-A **simple**, **powerful** and **flexible** site generation framework with everything you love from Next.js.
+{<h1 className="mt-10 mb-4 text-center text-[2.5rem] font-bold tracking-tight">TransDocs</h1>}
 
-## Documentation
+{<p className="mb-16 text-center text-lg text-gray-500 dark:text-gray-400">最新、翻译质量最高的技术文档翻译网站，为您提供无与伦比的翻译体验！</p>}
 
-The documentation is available at [https://nextra.site](https://nextra.site).
+<Cards>
+  <DocCard title="Nextra.js 中文文档" href="/docs">
+    <>![Nextra.js preview](/og.jpeg)</>
+  </DocCard>
+</Cards>
+
+export const DocCard = Object.assign(
+  // Copy card component and add default props
+  Cards.Card.bind(),
+  {
+    displayName: "DocCard",
+    defaultProps: {
+      image: true,
+      arrow: true,
+    },
+  }
+);
+
+<style global jsx>{`
+  img {
+    aspect-ratio: 12/6.3;
+    object-fit: cover;
+  }
+`}</style>

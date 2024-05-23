@@ -1,0 +1,101 @@
+import { FileIcon, NewsletterIcon } from "@components/icons";
+import { Card, Cards, FileTree } from "nextra/components";
+
+# 组织文件
+
+Nextra 首先从 `pages` 目录中收集所有的 Markdown 文件和配置，然后生成整个站点的“页面地图信息”，以渲染下面的 _导航栏_ 和 _侧边栏_：
+
+<br />
+
+<figure>
+  <>![Nextra 主题文档示例](/assets/routing@1x.png)</>
+  <figcaption>
+    示例：[Nextra 文档主题](/docs/docs-theme) 的侧边栏和导航栏是从 Markdown
+    文件中自动生成的.
+  </figcaption>
+</figure>
+
+## 默认行为
+
+默认情况下，页面地图包含所有 `.md` 和 `.mdx` 文件名以及目录结构，按字母顺序排序。然后，Nextra 将使用 [title](https://github.com/vercel/title) 包从文件名中获取格式化的页面名称。
+
+例如，如果您有以下结构：
+
+<FileTree>
+  <FileTree.Folder name="pages" defaultOpen>
+    <FileTree.File name="contact.md" />
+    <FileTree.File name="index.mdx" />
+    <FileTree.Folder name="about" defaultOpen>
+      <FileTree.File name="legal.md" />
+      <FileTree.File name="index.mdx" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+解析后的页面地图将是（注意所有名称都按字母顺序排序）：
+
+```json
+[
+  {
+    "name": "About",
+    "children": [{ "name": "Index" }, { "name": "Legal" }]
+  },
+  { "name": "Contact" },
+  { "name": "Index" }
+]
+```
+
+全局页面地图将由 Nextra 捆绑到每个页面中。然后，配置的主题将使用该页面地图渲染实际的 UI。
+
+## `_meta.json`
+
+自定义每个页面的标题，而不仅仅依赖于文件名，这是很常见的。将页面标题命名为“Index”缺乏清晰性。最好分配一个准确代表内容的有意义的标题，例如“Home”。
+
+这就是 `_meta.json` 的作用所在。您可以在每个目录中拥有一个 `_meta.json` 文件，它将用于覆盖每个页面的默认配置：
+
+<FileTree>
+  <FileTree.Folder name="pages" defaultOpen>
+    <FileTree.File name="_meta.json" />
+    <FileTree.File name="contact.md" />
+    <FileTree.File name="index.mdx" />
+    <FileTree.Folder name="about" defaultOpen>
+      <FileTree.File name="_meta.json" />
+      <FileTree.File name="legal.md" />
+      <FileTree.File name="index.mdx" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+您可以将以下内容放入 `pages/_meta.json` 文件中：
+
+```json filename="pages/_meta.json"
+{
+  "index": "我的主页",
+  "contact": "联系我们",
+  "about": "关于我们"
+}
+```
+
+它告诉 Nextra 每个页面的顺序和正确的标题。或者，您也可以使用 `title` 并在其中进行其他配置：
+
+```json filename="pages/_meta.json"
+{
+  "index": "我的主页",
+  "contact": "联系我们",
+  "about": {
+    "title": "关于我们",
+    "...extra configurations...": "..."
+  }
+}
+```
+
+额外的配置作为附加信息传递给 **主题**。请查看相应的页面以获取更多信息：
+
+<Cards>
+  <Card
+    icon={<NewsletterIcon />}
+    title="文档主题 →"
+    href="/docs/docs-theme/page-configuration"
+  />
+  <Card icon={<FileIcon />} title="博客主题 →" href="/docs/blog-theme/start" />
+</Cards>
