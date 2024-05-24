@@ -14,7 +14,7 @@
     "href": "https://twitter.com/leonzeng2024",
     "newWindow": true
   },
-  "docs": {
+  "nextra": {
     "type": "page",
     "title": "nextra 中文",
     "display": "hidden"

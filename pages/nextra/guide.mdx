@@ -1,0 +1,50 @@
+import {
+  BoxIcon,
+  BrushIcon,
+  DropperIcon,
+  FilesIcon,
+  GlobeIcon,
+  LightningIcon,
+  LinkIcon,
+  MarkdownIcon,
+  PictureIcon,
+  StarsIcon,
+} from "@components/icons";
+import { Card, Cards } from "nextra/components";
+
+# 指南
+
+以下功能通过 Next.js 配置进行设置，并在所有主题中可用。
+
+<Cards>
+  <Card
+    icon={<FilesIcon />}
+    title="文件组织"
+    href="/nextra/guide/organize-files"
+  />
+  <Card
+    icon={<MarkdownIcon />}
+    title="Markdown"
+    href="/nextra/guide/markdown"
+  />
+  <Card
+    icon={<StarsIcon />}
+    title="语法高亮"
+    href="/nextra/guide/syntax-highlighting"
+  />
+  <Card icon={<LinkIcon />} title="Next.js 链接" href="/nextra/guide/link" />
+  <Card
+    icon={<PictureIcon />}
+    title="Next.js 图像"
+    href="/nextra/guide/image"
+  />
+  <Card icon={<LightningIcon />} title="Next.js SSG" href="/nextra/guide/ssg" />
+  <Card icon={<GlobeIcon />} title="Next.js I18n" href="/nextra/guide/i18n" />
+  <Card
+    icon={<BrushIcon />}
+    title="自定义 CSS"
+    href="/nextra/guide/custom-css"
+  />
+  <Card icon={<DropperIcon />} title="高级" href="/nextra/guide/advanced" />
+  <Card icon={<BoxIcon />} title="内置组件" href="/nextra/guide/built-ins" />
+</Cards>

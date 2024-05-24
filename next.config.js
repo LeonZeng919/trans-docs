@@ -21,13 +21,13 @@ module.exports = withNextra({
   },
   redirects: () => [
     {
-      source: "/docs/guide/:slug(typescript|latex|tailwind-css|mermaid)",
-      destination: "/docs/guide/advanced/:slug",
+      source: "/nextra/guide/:slug(typescript|latex|tailwind-css|mermaid)",
+      destination: "/nextra/guide/advanced/:slug",
       permanent: true,
     },
     {
-      source: "/docs/docs-theme/built-ins/:slug(callout|steps|tabs)",
-      destination: "/docs/guide/built-ins/:slug",
+      source: "/nextra/docs-theme/built-ins/:slug(callout|steps|tabs)",
+      destination: "/nextra/guide/built-ins/:slug",
       permanent: true,
     },
   ],

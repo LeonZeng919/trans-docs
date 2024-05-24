@@ -1,0 +1,41 @@
+import { Callout } from "nextra/components";
+
+# useConfig
+
+<Callout type="warning">
+  **`useConfig`钩子用于动态配置你的项目**。更多关于每个可定制功能的信息，请参阅[主题配置](/nextra/docs-theme/theme-configuration)。
+</Callout>
+
+`useConfig`钩子返回你的主题配置和当前页面上下文中的数据。
+
+## 返回值
+
+- `banner`：关于[横幅](/nextra/docs-theme/theme-configuration#banner)的数据
+- `chat`：关于[聊天链接](/nextra/docs-theme/theme-configuration#chat-link)的数据
+- `darkMode`：一个布尔值，表示主题是否为暗色
+- `direction`：定义当前[书写方向](/nextra/docs-theme/theme-configuration#writing-direction)的字符串
+- `docsRepositoryBase`：文档仓库的链接字符串
+- `editLink`：关于[编辑链接](/nextra/docs-theme/theme-configuration#edit-link)的数据
+- `feedback`：关于[反馈链接](/nextra/docs-theme/theme-configuration#feedback-link)的数据
+- `footer`：关于[页脚](/nextra/docs-theme/theme-configuration#footer)的数据
+- `gitTimestamp`：渲染[最后更新日期](/nextra/docs-theme/theme-configuration#last-updated-date)的函数
+- `head`：等同于[Next.js Head标签](https://nextjs.org/docs/pages/api-reference/components/head)
+- `i18n`：关于[国际化](/nextra/guide/i18n)的数据
+- `logo`：网站logo的React组件
+- `logoLink`：`logo`组件的链接
+- `navbar`：与[导航栏](/nextra/docs-theme/theme-configuration#customize-the-navbar)相关的组件
+- `navigation`：关于[导航](/nextra/docs-theme/theme-configuration#navigation)的选项
+- `themeSwitch`：关于[主题切换](/nextra/docs-theme/theme-configuration#theme-switch)的数据
+- `nextThemes`：关于主题配置的数据（见[pacocoursey/next-themes](https://github.com/pacocoursey/next-themes)）
+- `notFound`：页面未找到时显示的数据
+- `primaryHue`：关于[主题颜色](/nextra/docs-theme/theme-configuration#theme-color)的数据
+- `primarySaturation`：关于[主题颜色](/nextra/docs-theme/theme-configuration#theme-color)的数据
+- `project`：关于[项目链接](/nextra/docs-theme/theme-configuration#project-link)的数据
+- `search`：关于[搜索](/nextra/docs-theme/theme-configuration#search)的数据
+- `serverSideError`：发生服务器端错误时显示的数据（需要`500.mdx`页面）
+- `sidebar`：关于[侧边栏](/nextra/docs-theme/theme-configuration#sidebar)的数据
+- `toc`：关于[目录侧边栏](/nextra/docs-theme/theme-configuration#toc-sidebar)的数据
+- `useNextSeoOptions`：传递数据给Next.js SEO组件的函数（见[SEO选项](/nextra/docs-theme/theme-configuration#seo-options)）
+- `flexsearch`：关于搜索配置的数据
+- `title`：当前文档的标题
+- `frontMatter`：解析的[前言](https://jekyllrb.com/docs/front-matter)数据
