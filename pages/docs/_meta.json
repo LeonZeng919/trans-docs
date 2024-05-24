@@ -5,9 +5,15 @@
     "type": "separator",
     "title": "主题"
   },
+
   "docs-theme": "文档主题",
   "blog-theme": "博客主题",
   "custom-theme": "",
+  "-- Blog": {
+    "type": "separator",
+    "title": "博客文章"
+  },
+  "best-practices": "最佳实践",
   "-- More": {
     "type": "separator",
     "title": "更多"

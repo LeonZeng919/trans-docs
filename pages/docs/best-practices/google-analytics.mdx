@@ -1,0 +1,91 @@
+# 如何在 Nextra 中使用 Google Analytics
+
+## Google Analytics 统计代码的作用
+
+Google Analytics 通常用于跟踪和分析网站的访问者活动和行为。将 Google Analytics 添加到我们的 Nextra 网站后，可以帮助我们了解：
+
+1. 访问量和流量来源:
+   Google Analytics 可以告诉我们，网站有多少访问量，以及这些访问量来自哪些来源，比如搜索引擎、社交媒体、其他网站等。
+
+2. 访问者行为:
+   Google Analytics 可以跟踪访问者在网站上的行为，比如他们浏览了哪些页面，停留时间多长，点击了哪些链接等。
+
+3. 地理位置和设备信息:
+   Google Analytics 统计代码可以提供访问者的地理位置信息，以及他们使用的设备类型和操作系统等信息。
+
+4. 转化率和目标追踪 :
+   如果网站设置了转化目标，比如购买产品、填写表单或注册账户，Google Analytics 可以跟踪这些转化事件，并提供关于转化率和转化路径的信息。
+
+5. 网站性能优化:
+   通过分析统计数据，我们可以了解哪些页面和内容受欢迎，哪些页面存在跳出率高的问题，从而优化网站内容和用户体验。
+
+## 如何在 Next.js 及 Nextra 中加入 Google Analytics
+
+使用 Next.js 或者 Nextra 搭建的网站不同于 WordPress 等建站工具，无法一键式的将 Google Analytics 统计代码加入到特定模块之中，实现网站统计功能。本文将介绍如何把 Google Analytics 统计代码添加到 Nextra 中。本文的方法也同样适用于基于 Next.js 搭建的所有网站。
+
+import { Steps } from "nextra/components";
+
+<Steps>
+### 安装 Nextjs Google Analytics 包
+
+Nextjs Google Analytics 是一个专门适用于 Next.js 的 Google Analytics 部署包，可以帮助我们轻松的将 Google Analytics 统计代码添加到 Next.js >= 11.0.0 的网站中。你可以使用以下命令安装：
+
+```bash
+npm install --save nextjs-google-analytics
+```
+
+`--save` 选项表示将其保存到项目的依赖项列表中。
+
+### 将你的 Google Analytics 统计 ID 添加到文件中
+
+将你的 Google Analytics 统计 ID 添加到 `.env.local` 文件中。
+
+```plaintext
+.env.local
+NEXT_PUBLIC_GA_MEASUREMENT_ID="G-XXXXXXXXXX"
+```
+
+`G-XXXXXXXXXX` 是你的 Google Analytics 统计 ID。
+
+### 修改 `pages/_app.js`
+
+如果你使用的是 `pages/_app.js`，则进行如下修改：
+
+```javascript
+// pages/_app.js
+import { GoogleAnalytics } from "nextjs-google-analytics";
+
+const App = ({ Component, pageProps }) => {
+  return (
+    <>
+      <GoogleAnalytics trackPageViews />
+      <Component {...pageProps} />
+    </>
+  );
+};
+
+export default App;
+```
+
+如果你使用的是 Nextra，则你需要对你的 `pages/_app.mdx` 进行如下修改：
+
+```mdx
+// pages/\_app.mdx
+import { GoogleAnalytics } from "nextjs-google-analytics";
+
+export default function App({ Component, pageProps }) {
+  return (
+    <>
+      <GoogleAnalytics trackPageViews />
+      <Component {...pageProps} />
+    </>
+  );
+
+}
+```
+
+### 大功告成
+
+以上几步已经将 Google Analytics 安装进 Nextra 中。现在你可以在 Google Analytics 中进行测试。
+
+</Steps>

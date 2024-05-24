@@ -41,7 +41,6 @@ const config: DocsThemeConfig = {
   },
   useNextSeoProps() {
     const { asPath } = useRouter();
-    console.log(asPath);
     if (asPath !== "/") {
       return {
         titleTemplate: "%s – TransDocs",
